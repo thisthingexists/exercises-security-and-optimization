@@ -1,0 +1,9 @@
+FROM golang:1.16
+EXPOSE 8080
+WORKDIR /usr/src/app
+RUN useradd -m non-root-user && chown non-root-user /usr/src/app
+USER non-root-user
+COPY --chown=non-root-user 1_13 .
+ENV REQUEST_ORIGIN=http://localhost:5001
+RUN go build
+CMD ["./server"]
