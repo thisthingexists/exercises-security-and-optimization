@@ -1,0 +1,9 @@
+FROM node:16-alpine
+EXPOSE 5001
+WORKDIR /usr/src/app
+ENV REACT_APP_BACKEND_URL=http://localhost:8080
+COPY  1_12 .
+RUN  npm install -g serve && npm install && npm run build && rm -rf src public node_modules &&  npm cache clean --force && adduser -D non-root-user && chown -R non-root-user /usr/src/app
+USER non-root-user
+CMD ["serve", "-s", "-l", "5001", "build"]
+
